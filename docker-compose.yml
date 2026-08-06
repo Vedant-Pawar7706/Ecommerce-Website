@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: cartify_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PROJECT_NAME=Cartify Enterprise API
+      - DATABASE_URL=postgresql+asyncpg://cartify_user:cartify_password@postgres:5432/cartify_db
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=cartify_super_secret_enterprise_jwt_key_2026
+    depends_on:
+      - postgres
+      - redis
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: cartify_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: cartify_postgres
+    environment:
+      POSTGRES_USER: cartify_user
+      POSTGRES_PASSWORD: cartify_password
+      POSTGRES_DB: cartify_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: cartify_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+volumes:
+  postgres_data:

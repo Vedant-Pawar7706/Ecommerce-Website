@@ -15,6 +15,16 @@ class Settings(BaseSettings):
 
     # Database
     DATABASE_URL: str = "sqlite+aiosqlite:///./cartify.db"
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def sanitize_database_url(cls, v: Union[str, None]) -> str:
+        if not v or not isinstance(v, str):
+            return "sqlite+aiosqlite:///./cartify.db"
+        clean = v.strip().strip('"').strip("'")
+        if not clean or clean.lower() in ("none", "null", ""):
+            return "sqlite+aiosqlite:///./cartify.db"
+        return clean
     
     # Redis & Cache
     REDIS_URL: str = "redis://localhost:6379/0"

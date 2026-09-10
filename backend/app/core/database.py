@@ -5,7 +5,9 @@ from app.core.config import settings
 
 # Determine connect args and normalize database URL
 connect_args = {}
-db_url = settings.DATABASE_URL
+db_url = (settings.DATABASE_URL or "").strip().strip('"').strip("'")
+if not db_url or db_url.lower() in ("none", "null", ""):
+    db_url = "sqlite+aiosqlite:///./cartify.db"
 
 if "sqlite" in db_url:
     connect_args = {"check_same_thread": False}

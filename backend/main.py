@@ -49,6 +49,16 @@ async def log_requests(request: Request, call_next):
     return response
 
 
+@app.get("/", tags=["System"])
+async def root():
+    return {
+        "message": f"Welcome to {settings.PROJECT_NAME} API",
+        "docs": "/docs",
+        "health": "/health",
+        "version": "1.0.0"
+    }
+
+
 @app.get("/health", tags=["System"])
 async def health_check():
     return {

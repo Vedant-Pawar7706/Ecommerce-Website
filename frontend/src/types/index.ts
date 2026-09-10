@@ -182,8 +182,11 @@ export interface Coupon {
   code: string;
   description: string;
   coupon_type: string;
+  discount_type?: string;
   discount_value: number;
   min_order_amount: number;
+  max_discount_amount?: number;
+  expires_at?: string;
   is_active: boolean;
 }
 

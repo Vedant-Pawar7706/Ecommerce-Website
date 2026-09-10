@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - PROJECT_NAME=Cartify Enterprise API
+      - PROJECT_NAME=Cartify
       - DATABASE_URL=postgresql+asyncpg://cartify_user:cartify_password@postgres:5432/cartify_db
       - REDIS_URL=redis://redis:6379/0
       - SECRET_KEY=cartify_super_secret_enterprise_jwt_key_2026

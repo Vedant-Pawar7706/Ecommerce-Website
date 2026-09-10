@@ -13,13 +13,13 @@ logger = logging.getLogger("cartify")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Starting Cartify Enterprise FastAPI Application...")
+    logger.info("Starting Cartify FastAPI Application...")
     try:
         await seed_database()
     except Exception as e:
         logger.warning(f"Seed database warning/skipped: {e}")
     yield
-    logger.info("Shutting down Cartify Enterprise API...")
+    logger.info("Shutting down Cartify API...")
 
 
 app = FastAPI(
@@ -35,7 +35,7 @@ app = FastAPI(
 # CORS Setup
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
